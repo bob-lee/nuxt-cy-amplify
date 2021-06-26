@@ -3,7 +3,7 @@
     <div>
       <Logo />
       <h1 class="title">
-        Hello "nuxt-cy-amplify"
+        Hello "nuxt-cy-amplify"!
       </h1>
       <div class="links">
         <a
