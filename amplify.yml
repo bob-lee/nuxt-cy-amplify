@@ -4,6 +4,7 @@ frontend:
     preBuild:
       commands:
         - yarn install
+        - yarn cy:run-ct
     build:
       commands:
         - yarn run build
