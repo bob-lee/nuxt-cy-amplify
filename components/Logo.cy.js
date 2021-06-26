@@ -6,6 +6,6 @@ describe('Logo', () => {
     const msg = 'Hello Cypress Component Testing!'
     mount(Logo)
 
-    cy.get('svg.NuxtLogoWrong').should('exist')
+    cy.get('svg.NuxtLogo').should('exist')
   })
 })
