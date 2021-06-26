@@ -1,6 +1,6 @@
 {
   "baseUrl": "http://localhost:3000",
-  "video": true,
+  "video": false,
   "videoCompression": 20,
   "fixturesFolder": false,
   "supportFile": false,
