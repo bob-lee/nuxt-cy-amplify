@@ -1,0 +1,9 @@
+{
+  "baseUrl": "http://localhost:3000",
+  "video": true,
+  "videoCompression": 20,
+  "fixturesFolder": false,
+  "supportFile": false,
+  "testFiles": "**/*.cy.js",
+  "componentFolder": "components"
+}

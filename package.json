@@ -6,11 +6,17 @@
     "dev": "nuxt",
     "build": "nuxt build",
     "start": "nuxt start",
-    "generate": "nuxt generate"
+    "generate": "nuxt generate",
+    "cy:run-ct": "cypress run-ct"
   },
   "dependencies": {
     "core-js": "^3.9.1",
     "nuxt": "^2.15.3"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "@cypress/vue": "^2.2.3",
+    "@cypress/webpack-dev-server": "^1.4.0",
+    "cypress": "^7.6.0",
+    "webpack-dev-server": "^3.11.2"
+  }
 }
