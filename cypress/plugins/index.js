@@ -7,8 +7,8 @@ module.exports = (on, config) => {
     let webpackConfig = await getWebpackConfig('client', {
       for: 'dev',
     })
-    delete webpackConfig.output
-    webpackConfig.plugins = webpackConfig.plugins.filter((a) => a.constructor.name !== 'HtmlWebpackPlugin')
+    // delete webpackConfig.output
+    // webpackConfig.plugins = webpackConfig.plugins.filter((a) => a.constructor.name !== 'HtmlWebpackPlugin')
     return startDevServer({
       options,
       webpackConfig

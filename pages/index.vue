@@ -22,13 +22,35 @@
         >
           GitHub
         </a>
+        <input data-cy="term" placeholder="Country name" v-model="term" />
+        <button data-cy="search" @click="search">Search</button>
+        <span data-cy="countries">{{countries.length}}</span>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-export default {}
+export default {
+  data() {
+    return {
+      term: '',
+      countries: []
+    }
+  },
+  methods: {
+    search2() {
+      fetch('https://restcountries.eu/rest/v2/name/' + this.term)
+        .then(response => response.json())
+        .then(data => console.log(data));
+    },
+    async search() {
+      const response = await fetch('https://restcountries.eu/rest/v2/name/' + this.term)
+      this.countries = await response.json()
+      console.log('search got', this.term, this.countries)
+    }
+  }
+}
 </script>
 
 <style>
