@@ -22,6 +22,7 @@
         >
           GitHub
         </a>
+        <button data-cy="graphql" @click="graphql">graphql</button>
         <input data-cy="term" placeholder="Country name" v-model="term" />
         <button data-cy="search" @click="search">Search</button>
         <span data-cy="countries">{{countries.length}}</span>
@@ -31,6 +32,10 @@
 </template>
 
 <script>
+import axios from 'axios'
+
+const API_URL = 'https://my-graphql-server.com/graphql'
+
 export default {
   data() {
     return {
@@ -48,7 +53,23 @@ export default {
       const response = await fetch('https://restcountries.eu/rest/v2/name/' + this.term)
       this.countries = await response.json()
       console.log('search got', this.term, this.countries)
-    }
+    },
+    async graphql() {
+      const { data } = await axios.post(API_URL, {
+        query: `query listMtCompanys {
+          listMtCompanys {
+            mtCompanyId
+            companyName
+          }
+        }`
+      }, {
+        headers: {
+          'Content-Type': 'application/json',
+          'x-api-key': 'my-graphql-api-key'
+        }
+      })
+      console.log('graphql got', data)
+    },
   }
 }
 </script>
