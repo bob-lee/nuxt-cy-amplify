@@ -31,7 +31,7 @@ const responseStubbed = [
     "cioc":"NZL"
   }
 ]
-const API_URL = 'https://u4dms4idsfc7lnskiiqg4rrezm.appsync-api.ap-southeast-2.amazonaws.com/graphql'
+const API_URL = 'https://my-graphql-server.com/graphql'
 const aliasGraphqlName = (operation, name) => {
   const Capital = name.charAt(0).toUpperCase() + name.slice(1)
   return `alias${operation}${Capital}`
@@ -85,7 +85,7 @@ describe('main page', () => {
 
   it('visits main page', () => {
     cy.get('svg.NuxtLogo').should('exist')
-    cy.intercept('https://restcountries.eu/rest/v2/name/*'/*, responseStubbed*/).as('search')
+    cy.intercept('https://restcountries.eu/rest/v2/name/*', responseStubbed).as('search')
     cy.get('input[data-cy=term]').type('united')
     cy.get('button[data-cy=search]').click()
     cy.wait('@search').its('response.body')
