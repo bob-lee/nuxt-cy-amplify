@@ -22,7 +22,7 @@
         >
           GitHub
         </a>
-        <button data-cy="graphql" @click="graphql">graphql</button>
+        <button data-cy="graphql" @click="search4">graphql</button>
         <input data-cy="term" placeholder="Country name" v-model="term" />
         <button data-cy="search" @click="search">Search</button>
         <span data-cy="countries">{{countries.length}}</span>
@@ -32,7 +32,7 @@
 </template>
 
 <script>
-import axios from 'axios'
+import Axios from 'axios'
 
 const API_URL = 'https://my-graphql-server.com/graphql'
 
@@ -48,6 +48,39 @@ export default {
       fetch('https://restcountries.eu/rest/v2/name/' + this.term)
         .then(response => response.json())
         .then(data => console.log(data));
+    },
+    search3() { // '7mgOJolrFJ2YHAtqThda48B2XXhl3ngn1JEQxTM4'
+      fetch('https://8xbpv0j4mb.execute-api.ap-southeast-2.amazonaws.com/v1', {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+          'x-api-key': '7mgOJolrFJ2YHAtqThda48B2XXhl3ngn1JEQxTM4'
+        },
+        body: JSON.stringify({ 'client': { 'id': -123 }})
+      })
+        .then(response => response.json())
+        .then(data => console.log('revoked', data))
+        .catch(error => {
+          console.error('fetch error', error)
+        })
+        // .then(response => response.json())
+        // .then(data => console.log(data));
+    },
+    search4() {
+      const data = { 'client': { 'id': -123 }}
+      Axios.post('https://8xbpv0j4mb.execute-api.ap-southeast-2.amazonaws.com/v1',
+        data,
+        {
+          headers: {
+            'x-api-key': '7mgOJolrFJ2YHAtqThda48B2XXhl3ngn1JEQxTM4'
+          }
+        }
+      )
+        .then(repsonse => console.log('response', response))
+        .catch(error => console.log('error', error));
+
     },
     async search() {
       const response = await fetch('https://restcountries.eu/rest/v2/name/' + this.term)
