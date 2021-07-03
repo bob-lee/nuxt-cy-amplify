@@ -7,22 +7,23 @@
       </h1>
       <div class="links">
         <a
-          href="https://nuxtjs.org/"
+          @click.prevent="graphql"
+          href="#"
           target="_blank"
           rel="noopener noreferrer"
           class="button--green"
         >
-          Documentation
+          Graphql api
         </a>
         <a
-          href="https://github.com/nuxt/nuxt.js"
+          @click.prevent="search3a"
+          href="#"
           target="_blank"
           rel="noopener noreferrer"
           class="button--grey"
         >
-          GitHub
+          Rest api({{$config.canIUse}})
         </a>
-        <button data-cy="graphql" @click="search3">graphql</button>
         <input data-cy="term" placeholder="Country name" v-model="term" />
         <button data-cy="search" @click="search">Search</button>
         <span data-cy="countries">{{countries.length}}</span>
@@ -34,7 +35,7 @@
 <script>
 import Axios from 'axios';
 
-const API_URL = 'https://my-graphql-server.com/graphql'
+// const API_URL = 'https://my-graphql-server.com/graphql'
 
 export default {
   data() {
@@ -42,6 +43,14 @@ export default {
       term: '',
       countries: []
     }
+  },
+  computed: {
+    CanIUse() { // process.env
+      return process.env.CAN_I_USE
+    }
+  },
+  mounted() {
+    console.log('mounted', process.env.CAN_I_USE, this.$config.canIUse)
   },
   methods: {
     search2() {
@@ -51,11 +60,11 @@ export default {
     },
     async postRevoke(id) {
       const data = { client: { id }}
-      const response = await fetch('https://my-api-url', {
+      const response = await fetch(this.$config.api2Url, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'x-api-key': 'my-api-key'
+          'x-api-key': this.$config.api2Key
         },
         body: JSON.stringify(data)
       })
@@ -63,13 +72,46 @@ export default {
       if (response.ok) {
         return response.json()
       } else { // not ok
-        throw new Error(`Bad response ${response.status} from server: ${response.statusText}`)
+        if (response.status === 400) {
+          const error = new Error(response.status)
+          error.response = response
+          throw error
+        } else {
+          throw new Error(`Bad response ${response.status} from server: ${response.statusText}`)
+        }
       }
     },
     search3() {
       this.postRevoke(1281928)
         .then(console.log)
-        .catch(console.error)
+        .catch(console.log)
+    },
+    async search3a() {
+      try {
+        const response = await this.postRevoke(1281928)
+        console.log('response', response)
+      } catch (error) {
+        if (error.response && error.response.status && error.response.status === 400) {
+          const text = await error.response.text()
+          console.log('error', error.response.status, text) // e.g. 400, Failed to find portal user from given client id
+        } else {
+          console.log('error', error)
+        }
+      }
+    },
+    search4() {
+      const data = { client: { id: -125 }}
+      Axios.post(this.$config.api2Url,
+        data,
+        {
+          headers: {
+            'x-api-key': this.$config.api2Key
+          }
+        }
+      )
+      .then(response => console.log('response', response))
+      .catch(error => console.log('error', error.response))
+      // const result = await response.json()
     },
     async search() {
       const response = await fetch('https://restcountries.eu/rest/v2/name/' + this.term)
@@ -77,7 +119,7 @@ export default {
       console.log('search got', this.term, this.countries)
     },
     async graphql() {
-      const { data } = await axios.post(API_URL, {
+      const { data } = await Axios.post(this.$config.apiUrl, {
         query: `query listMtCompanys {
           listMtCompanys {
             mtCompanyId
@@ -86,8 +128,9 @@ export default {
         }`
       }, {
         headers: {
+          // 'Accept': 'application/json',
           'Content-Type': 'application/json',
-          'x-api-key': 'my-graphql-api-key'
+          'x-api-key': this.$config.apiKey
         }
       })
       console.log('graphql got', data)
