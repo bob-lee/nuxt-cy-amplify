@@ -3,7 +3,7 @@
   "video": false,
   "videoCompression": 20,
   "fixturesFolder": false,
-  "supportFile": false,
+  "supportFile": "cypress/support/index.js",
   "testFiles": "**/*.cy.js",
   "componentFolder": "components"
 }
