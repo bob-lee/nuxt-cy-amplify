@@ -28,6 +28,7 @@
         <button data-cy="search" @click="search">Search</button>
         <span data-cy="countries">{{countries.length}}</span>
       </div>
+      <MyCard />
     </div>
   </div>
 </template>
