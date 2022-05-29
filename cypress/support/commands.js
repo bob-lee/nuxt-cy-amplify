@@ -44,6 +44,22 @@ Cypress.Commands.add("mount", (MountedComponent, options) => {
 
   // root.setAttribute('style', 'display: block');
 
+  // attach Vuetify css links to document
+  const linkElem1 = document.createElement('link');
+  linkElem1.setAttribute('rel', 'stylesheet');
+  linkElem1.setAttribute('href', 'https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900');
+  const linkElem2 = document.createElement('link');
+  linkElem2.setAttribute('rel', 'stylesheet');
+  linkElem2.setAttribute('href', 'https://cdn.jsdelivr.net/npm/@mdi/font@6.x/css/materialdesignicons.min.css');
+  const linkElem3 = document.createElement('link');
+  linkElem3.setAttribute('rel', 'stylesheet');
+  linkElem3.setAttribute('href', 'https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css');
+  if (document.head) {
+    document.head.appendChild(linkElem1)
+    document.head.appendChild(linkElem2)
+    document.head.appendChild(linkElem3)
+  }
+
   return mount(MountedComponent, {
     vuetify: new Vuetify({}),
     ...options,
